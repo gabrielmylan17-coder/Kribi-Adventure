@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kribi Adventure – Tourisme dans le Sud Cameroun</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-deep:   #1B4332;
+      --green-mid:    #2D6A4F;
+      --green-light:  #52B788;
+      --green-pale:   #D8F3DC;
+      --sand:         #F4E4C1;
+      --cream:        #FAFAF8;
+      --charcoal:     #1A1A1A;
+      --text-mid:     #3D3D3D;
+      --text-light:   #6B6B6B;
+      --white:        #FFFFFF;
+      --accent:       #E9A44A;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--cream);
+      color: var(--charcoal);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 4rem;
+      transition: background 0.4s, box-shadow 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(27, 67, 50, 0.97);
+      box-shadow: 0 2px 24px rgba(0,0,0,0.18);
+      backdrop-filter: blur(8px);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem; font-weight: 900;
+      color: var(--white); letter-spacing: -0.02em;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--green-light); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: rgba(255,255,255,0.85); text-decoration: none;
+      font-size: 0.875rem; font-weight: 500; letter-spacing: 0.04em;
+      text-transform: uppercase; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--green-light); }
+    .nav-cta {
+      background: var(--green-light); color: var(--white) !important;
+      padding: 0.55rem 1.4rem; border-radius: 2rem;
+    }
+    .nav-cta:hover { background: var(--accent); color: var(--white) !important; }
+
+    /* hamburger */
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; padding: 0.4rem; background: none; border: none;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: var(--white); border-radius: 2px; transition: 0.3s;
+    }
+    .mobile-menu {
+      display: none; position: fixed; inset: 0;
+      background: var(--green-deep); z-index: 99;
+      flex-direction: column; align-items: center; justify-content: center;
+      gap: 2rem;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      color: var(--white); font-size: 1.5rem;
+      text-decoration: none; font-family: 'Playfair Display', serif;
+      font-weight: 700; transition: color 0.2s;
+    }
+    .mobile-menu a:hover { color: var(--green-light); }
+    .mobile-close {
+      position: absolute; top: 1.5rem; right: 2rem;
+      background: none; border: none; color: var(--white);
+      font-size: 2rem; cursor: pointer;
+    }
+
+    /* ── HERO ── */
+    #hero {
+      position: relative; height: 100dvh; min-height: 600px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        linear-gradient(160deg, rgba(27,67,50,0.72) 0%, rgba(27,67,50,0.28) 60%, rgba(0,0,0,0.45) 100%),
+        url('https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=1800&q=80') center/cover no-repeat;
+    }
+    .hero-content {
+      position: relative; z-index: 1;
+      text-align: center; padding: 0 1.5rem; max-width: 900px;
+    }
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--green-light);
+      margin-bottom: 1.5rem;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 7vw, 6rem);
+      font-weight: 900; line-height: 1.05;
+      color: var(--white); margin-bottom: 1.5rem;
+    }
+    .hero-title em { font-style: italic; color: var(--green-light); }
+    .hero-sub {
+      font-size: clamp(1rem, 2.2vw, 1.25rem);
+      color: rgba(255,255,255,0.82); max-width: 600px;
+      margin: 0 auto 2.5rem; line-height: 1.7;
+    }
+    .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--green-light); color: var(--white);
+      padding: 0.9rem 2.2rem; border-radius: 3rem;
+      text-decoration: none; font-weight: 600; font-size: 0.95rem;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { background: var(--accent); transform: translateY(-2px); }
+    .btn-outline {
+      border: 2px solid rgba(255,255,255,0.7); color: var(--white);
+      padding: 0.9rem 2.2rem; border-radius: 3rem;
+      text-decoration: none; font-weight: 500; font-size: 0.95rem;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--white); background: rgba(255,255,255,0.1); }
+    .scroll-hint {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      z-index: 1; display: flex; flex-direction: column; align-items: center;
+      gap: 0.4rem; color: rgba(255,255,255,0.5); font-size: 0.7rem; letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    .scroll-hint::after {
+      content: ''; display: block; width: 1px; height: 40px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.5), transparent);
+      animation: scrollLine 2s ease-in-out infinite;
+    }
+    @keyframes scrollLine { 0%,100%{opacity:0.3; transform:scaleY(0.6);} 50%{opacity:1; transform:scaleY(1);} }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+      background: var(--green-deep);
+      display: grid; grid-template-columns: repeat(4, 1fr);
+    }
+    .stat-item {
+      padding: 2rem 1.5rem; text-align: center;
+      border-right: 1px solid rgba(255,255,255,0.1);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem; font-weight: 900; color: var(--green-light);
+      display: block;
+    }
+    .stat-label { font-size: 0.78rem; color: rgba(255,255,255,0.6); letter-spacing: 0.08em; text-transform: uppercase; margin-top: 0.25rem; }
+
+    /* ── SECTIONS COMMON ── */
+    section { padding: 6rem 4rem; }
+    .section-eyebrow {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--green-mid);
+      margin-bottom: 0.8rem; display: block;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem); font-weight: 700;
+      line-height: 1.15; color: var(--charcoal);
+      max-width: 640px;
+    }
+    .section-lead {
+      font-size: 1.05rem; line-height: 1.75; color: var(--text-mid);
+      max-width: 580px; margin-top: 1.2rem;
+    }
+    .text-center { text-align: center; }
+    .text-center .section-title, .text-center .section-lead { margin-left: auto; margin-right: auto; }
+
+    /* ── À PROPOS ── */
+    #about { background: var(--cream); }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: center; max-width: 1200px; margin: 0 auto;
+    }
+    .about-image-wrap { position: relative; }
+    .about-img {
+      width: 100%; border-radius: 1rem; display: block;
+      height: 520px; object-fit: cover;
+    }
+    .about-badge {
+      position: absolute; bottom: -1.5rem; right: -1.5rem;
+      background: var(--green-deep); color: var(--white);
+      padding: 1.5rem; border-radius: 0.75rem;
+      text-align: center; min-width: 130px;
+    }
+    .about-badge strong { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; display: block; }
+    .about-badge span { font-size: 0.75rem; color: var(--green-light); text-transform: uppercase; letter-spacing: 0.08em; }
+    .about-text { padding-left: 1rem; }
+    .about-features { list-style: none; margin-top: 1.8rem; display: flex; flex-direction: column; gap: 0.9rem; }
+    .about-features li {
+      display: flex; align-items: flex-start; gap: 0.75rem;
+      font-size: 0.95rem; color: var(--text-mid); line-height: 1.5;
+    }
+    .about-features li::before {
+      content: '✦'; color: var(--green-light);
+      font-size: 0.6rem; margin-top: 0.35rem; flex-shrink: 0;
+    }
+
+    /* ── DESTINATIONS ── */
+    #destinations { background: var(--charcoal); padding: 6rem 4rem; }
+    #destinations .section-title { color: var(--white); }
+    #destinations .section-eyebrow { color: var(--green-light); }
+    #destinations .section-lead { color: rgba(255,255,255,0.65); }
+    .dest-header { max-width: 1200px; margin: 0 auto 3.5rem; display: flex; justify-content: space-between; align-items: flex-end; gap: 2rem; flex-wrap: wrap; }
+    .dest-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem; max-width: 1200px; margin: 0 auto;
+    }
+    .dest-card {
+      position: relative; border-radius: 1rem; overflow: hidden;
+      aspect-ratio: 3/4; cursor: pointer;
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .dest-card:first-child { grid-row: span 2; aspect-ratio: auto; }
+    .dest-card:hover { transform: scale(1.02); }
+    .dest-img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform 0.5s;
+    }
+    .dest-card:hover .dest-img { transform: scale(1.07); }
+    .dest-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(10,30,20,0.85) 0%, transparent 55%);
+    }
+    .dest-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem; }
+    .dest-tag {
+      display: inline-block; background: var(--green-light);
+      color: var(--white); font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.25rem 0.7rem; border-radius: 2rem; margin-bottom: 0.5rem;
+    }
+    .dest-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem; font-weight: 700; color: var(--white);
+      line-height: 1.2;
+    }
+    .dest-desc { font-size: 0.82rem; color: rgba(255,255,255,0.72); margin-top: 0.4rem; line-height: 1.5; }
+
+    /* ── ACTIVITÉS ── */
+    #activities { background: var(--cream); }
+    .act-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; max-width: 1200px; margin: 3.5rem auto 0; }
+    .act-card {
+      background: var(--white); border-radius: 1rem; overflow: hidden;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+      transition: box-shadow 0.3s, transform 0.3s;
+    }
+    .act-card:hover { box-shadow: 0 8px 40px rgba(27,67,50,0.15); transform: translateY(-4px); }
+    .act-img { width: 100%; height: 220px; object-fit: cover; display: block; }
+    .act-body { padding: 1.5rem; }
+    .act-icon { font-size: 1.6rem; margin-bottom: 0.75rem; display: block; }
+    .act-name { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; color: var(--charcoal); margin-bottom: 0.5rem; }
+    .act-desc { font-size: 0.88rem; color: var(--text-light); line-height: 1.65; }
+    .act-meta { margin-top: 1rem; font-size: 0.78rem; color: var(--green-mid); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+
+    /* ── EXPÉRIENCE / GALERIE ── */
+    #gallery { background: var(--sand); padding: 6rem 4rem; }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: 220px 220px;
+      gap: 1rem; max-width: 1200px; margin: 3rem auto 0;
+    }
+    .gallery-grid .g1 { grid-column: span 2; grid-row: span 2; }
+    .gallery-item { border-radius: 0.75rem; overflow: hidden; position: relative; }
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s; }
+    .gallery-item:hover img { transform: scale(1.06); }
+    .gallery-caption {
+      position: absolute; inset: 0; background: rgba(27,67,50,0);
+      display: flex; align-items: flex-end; padding: 1rem;
+      transition: background 0.3s;
+    }
+    .gallery-caption span { font-size: 0.8rem; color: var(--white); font-weight: 600; opacity: 0; transition: opacity 0.3s; }
+    .gallery-item:hover .gallery-caption { background: rgba(27,67,50,0.45); }
+    .gallery-item:hover .gallery-caption span { opacity: 1; }
+
+    /* ── SÉJOURS / FORFAITS ── */
+    #packages { background: var(--white); }
+    .pkg-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; max-width: 1200px; margin: 3.5rem auto 0; }
+    .pkg-card {
+      border: 1.5px solid rgba(0,0,0,0.08); border-radius: 1.25rem; overflow: hidden;
+      display: flex; flex-direction: column;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .pkg-card:hover { border-color: var(--green-light); box-shadow: 0 8px 32px rgba(82,183,136,0.15); }
+    .pkg-card.featured { border-color: var(--green-deep); background: var(--green-deep); }
+    .pkg-img { width: 100%; height: 190px; object-fit: cover; display: block; }
+    .pkg-body { padding: 1.75rem; flex: 1; display: flex; flex-direction: column; }
+    .pkg-badge {
+      display: inline-block; font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 0.25rem 0.8rem; border-radius: 2rem; margin-bottom: 0.9rem;
+    }
+    .pkg-card:not(.featured) .pkg-badge { background: var(--green-pale); color: var(--green-mid); }
+    .pkg-card.featured .pkg-badge { background: var(--green-light); color: var(--white); }
+    .pkg-name { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .pkg-card:not(.featured) .pkg-name { color: var(--charcoal); }
+    .pkg-card.featured .pkg-name { color: var(--white); }
+    .pkg-desc { font-size: 0.875rem; line-height: 1.65; margin-bottom: 1.2rem; }
+    .pkg-card:not(.featured) .pkg-desc { color: var(--text-light); }
+    .pkg-card.featured .pkg-desc { color: rgba(255,255,255,0.72); }
+    .pkg-features { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; flex: 1; }
+    .pkg-features li { display: flex; align-items: center; gap: 0.6rem; font-size: 0.83rem; }
+    .pkg-card:not(.featured) .pkg-features li { color: var(--text-mid); }
+    .pkg-card.featured .pkg-features li { color: rgba(255,255,255,0.8); }
+    .pkg-features li::before { content: '✓'; font-weight: 700; color: var(--green-light); flex-shrink: 0; }
+    .pkg-price { margin-top: 1.5rem; padding-top: 1.2rem; border-top: 1px solid rgba(0,0,0,0.08); }
+    .pkg-card.featured .pkg-price { border-top-color: rgba(255,255,255,0.15); }
+    .price-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; }
+    .pkg-card:not(.featured) .price-label { color: var(--text-light); }
+    .pkg-card.featured .price-label { color: rgba(255,255,255,0.5); }
+    .price-val { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; margin: 0.1rem 0; }
+    .pkg-card:not(.featured) .price-val { color: var(--green-deep); }
+    .pkg-card.featured .price-val { color: var(--green-light); }
+    .price-per { font-size: 0.78rem; }
+    .pkg-card:not(.featured) .price-per { color: var(--text-light); }
+    .pkg-card.featured .price-per { color: rgba(255,255,255,0.5); }
+    .pkg-btn {
+      display: block; text-align: center; margin-top: 1rem;
+      padding: 0.8rem 1.5rem; border-radius: 2rem;
+      font-weight: 600; font-size: 0.88rem;
+      text-decoration: none; transition: background 0.2s, transform 0.2s;
+    }
+    .pkg-card:not(.featured) .pkg-btn { background: var(--green-light); color: var(--white); }
+    .pkg-card:not(.featured) .pkg-btn:hover { background: var(--green-deep); transform: translateY(-1px); }
+    .pkg-card.featured .pkg-btn { background: var(--green-light); color: var(--white); }
+    .pkg-card.featured .pkg-btn:hover { background: var(--accent); }
+
+    /* ── TÉMOIGNAGES ── */
+    #testimonials { background: var(--green-deep); padding: 6rem 4rem; }
+    #testimonials .section-title { color: var(--white); }
+    #testimonials .section-eyebrow { color: var(--green-light); }
+    .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; max-width: 1200px; margin: 3.5rem auto 0; }
+    .testi-card {
+      background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 1rem; padding: 2rem;
+    }
+    .testi-stars { color: var(--accent); font-size: 1rem; margin-bottom: 1rem; letter-spacing: 0.1em; }
+    .testi-quote {
+      font-size: 0.95rem; line-height: 1.75; color: rgba(255,255,255,0.82);
+      font-style: italic; margin-bottom: 1.5rem;
+    }
+    .testi-author { display: flex; align-items: center; gap: 0.9rem; }
+    .testi-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      object-fit: cover; border: 2px solid var(--green-light);
+    }
+    .testi-name { font-weight: 600; color: var(--white); font-size: 0.9rem; }
+    .testi-origin { font-size: 0.78rem; color: rgba(255,255,255,0.45); margin-top: 0.1rem; }
+
+    /* ── TIPS / INFOS PRATIQUES ── */
+    #tips { background: var(--cream); }
+    .tips-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4rem; max-width: 1100px; margin: 3.5rem auto 0; align-items: start; }
+    .tips-block h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; margin-bottom: 1.2rem; color: var(--charcoal); }
+    .tips-list { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
+    .tips-list li { display: flex; gap: 1rem; align-items: flex-start; }
+    .tip-icon { width: 40px; height: 40px; border-radius: 0.5rem; background: var(--green-pale); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+    .tip-text strong { display: block; font-size: 0.9rem; font-weight: 600; color: var(--charcoal); margin-bottom: 0.2rem; }
+    .tip-text span { font-size: 0.83rem; color: var(--text-light); line-height: 1.5; }
+    .seasons-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+    .seasons-table th, .seasons-table td { padding: 0.8rem 1rem; text-align: left; font-size: 0.85rem; border-bottom: 1px solid rgba(0,0,0,0.07); }
+    .seasons-table th { font-weight: 700; color: var(--green-mid); text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.08em; }
+    .seasons-table td { color: var(--text-mid); }
+    .pill { display: inline-block; padding: 0.2rem 0.7rem; border-radius: 2rem; font-size: 0.75rem; font-weight: 600; }
+    .pill.good { background: #d1fae5; color: #065f46; }
+    .pill.avg { background: #fef3c7; color: #92400e; }
+    .pill.off { background: #fee2e2; color: #991b1b; }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--charcoal); padding: 6rem 4rem; }
+    #contact .section-title { color: var(--white); }
+    #contact .section-eyebrow { color: var(--green-light); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 5rem; max-width: 1100px; margin: 3rem auto 0; align-items: start; }
+    .contact-info { display: flex; flex-direction: column; gap: 2rem; }
+    .contact-item { display: flex; gap: 1rem; align-items: flex-start; }
+    .c-icon { width: 44px; height: 44px; border-radius: 0.6rem; background: rgba(82,183,136,0.15); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+    .c-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.4); margin-bottom: 0.2rem; }
+    .c-val { font-size: 0.95rem; color: var(--white); font-weight: 500; }
+    .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+    .form-group label { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+    .form-group input, .form-group select, .form-group textarea {
+      background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 0.6rem; padding: 0.9rem 1.1rem;
+      color: var(--white); font-family: 'Inter', sans-serif; font-size: 0.9rem;
+      transition: border-color 0.2s, background 0.2s; outline: none;
+    }
+    .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(255,255,255,0.3); }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color: var(--green-light); background: rgba(82,183,136,0.08);
+    }
+    .form-group select option { background: var(--charcoal); }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .submit-btn {
+      background: var(--green-light); color: var(--white); border: none;
+      padding: 1rem 2.5rem; border-radius: 3rem; font-size: 0.95rem;
+      font-weight: 600; cursor: pointer; transition: background 0.2s, transform 0.2s;
+      align-self: flex-start;
+    }
+    .submit-btn:hover { background: var(--accent); transform: translateY(-2px); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #0d1f16; color: rgba(255,255,255,0.55);
+      padding: 3rem 4rem; display: flex;
+      align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap;
+    }
+    .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 900; color: var(--white); }
+    .footer-logo span { color: var(--green-light); }
+    footer p { font-size: 0.82rem; }
+    .footer-social { display: flex; gap: 1rem; }
+    .soc-btn {
+      width: 38px; height: 38px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.15);
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none; color: rgba(255,255,255,0.55);
+      font-size: 0.85rem; transition: border-color 0.2s, color 0.2s;
+    }
+    .soc-btn:hover { border-color: var(--green-light); color: var(--green-light); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      section { padding: 5rem 2.5rem; }
+      nav { padding: 1.2rem 2.5rem; }
+      .about-grid { gap: 3rem; }
+      .dest-grid { grid-template-columns: repeat(2, 1fr); }
+      .dest-card:first-child { grid-row: span 1; aspect-ratio: 3/4; }
+      .gallery-grid { grid-template-columns: repeat(3, 1fr); grid-template-rows: 200px 200px; }
+      .gallery-grid .g1 { grid-column: span 1; grid-row: span 1; }
+      .pkg-grid { grid-template-columns: 1fr 1fr; }
+      .pkg-grid > :last-child { grid-column: span 2; max-width: 420px; margin: 0 auto; }
+      .testi-grid { grid-template-columns: 1fr 1fr; }
+      .testi-grid > :last-child { grid-column: span 2; }
+    }
+
+    @media (max-width: 768px) {
+      section { padding: 4rem 1.5rem; }
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .stats-bar { grid-template-columns: repeat(2, 1fr); }
+      .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); }
+      .stat-item:last-child, .stat-item:nth-child(even) { border-right: none; }
+      .about-grid { grid-template-columns: 1fr; gap: 4rem; }
+      .about-img { height: 320px; }
+      .about-badge { bottom: -1rem; right: 1rem; }
+      .about-text { padding-left: 0; }
+      .dest-grid { grid-template-columns: 1fr; gap: 1.2rem; }
+      .act-grid { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+      .gallery-grid .g1 { grid-column: span 2; height: 240px; }
+      .gallery-grid > :not(.g1) { height: 160px; }
+      .pkg-grid { grid-template-columns: 1fr; }
+      .pkg-grid > :last-child { grid-column: span 1; max-width: 100%; }
+      .testi-grid { grid-template-columns: 1fr; }
+      .testi-grid > :last-child { grid-column: span 1; }
+      .tips-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .form-row { grid-template-columns: 1fr; }
+      footer { flex-direction: column; align-items: flex-start; padding: 2.5rem 1.5rem; }
+      .dest-header { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">Kribi<span>Adventure</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">À propos</a></li>
+    <li><a href="#destinations">Destinations</a></li>
+    <li><a href="#activities">Activités</a></li>
+    <li><a href="#packages">Séjours</a></li>
+    <li><a href="#contact" class="nav-cta">Réserver</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="#about" class="mob-link">À propos</a>
+  <a href="#destinations" class="mob-link">Destinations</a>
+  <a href="#activities" class="mob-link">Activités</a>
+  <a href="#gallery" class="mob-link">Galerie</a>
+  <a href="#packages" class="mob-link">Séjours</a>
+  <a href="#contact" class="mob-link">Contact</a>
+</div>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <span class="hero-eyebrow">🌿 Région du Sud — Cameroun</span>
+    <h1 class="hero-title">L'Afrique dans toute<br>sa <em>splendeur sauvage</em></h1>
+    <p class="hero-sub">Chutes d'eau spectaculaires, forêts tropicales denses, plages immaculées et cultures Bulu. Kribi Adventure vous guide au cœur de la région la plus envoûtante du Cameroun.</p>
+    <div class="hero-btns">
+      <a href="#packages" class="btn-primary">Voir nos séjours</a>
+      <a href="#destinations" class="btn-outline">Découvrir le Sud</a>
+    </div>
+  </div>
+  <div class="scroll-hint">Défiler</div>
+</section>
+
+<!-- ── STATS ── -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <span class="stat-num">12+</span>
+    <span class="stat-label">Sites naturels</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">500+</span>
+    <span class="stat-label">Voyageurs accompagnés</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">8</span>
+    <span class="stat-label">Ans d'expertise</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">4.9★</span>
+    <span class="stat-label">Note moyenne</span>
+  </div>
+</div>
+
+<!-- ── À PROPOS ── -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-image-wrap">
+      <img
+        src="https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=900&q=80"
+        alt="Chutes de la Lobé à Kribi"
+        class="about-img"
+      />
+      <div class="about-badge">
+        <strong>Kribi</strong>
+        <span>Notre base</span>
+      </div>
+    </div>
+    <div class="about-text">
+      <span class="section-eyebrow">Notre mission</span>
+      <h2 class="section-title">Votre porte d'entrée vers le Grand Sud camerounais</h2>
+      <p class="section-lead">
+        Kribi Adventure est né d'une passion profonde pour cette région unique où l'Atlantique rencontre la forêt équatoriale. Nous créons des expériences authentiques pour les voyageurs qui souhaitent aller au-delà du tourisme ordinaire.
+      </p>
+      <ul class="about-features">
+        <li>Guides locaux certifiés et passionnés, natifs des communautés Bulu et Bagyeli</li>
+        <li>Itinéraires personnalisables adaptés à chaque profil de voyageur</li>
+        <li>Tourisme responsable et engagement avec les communautés locales</li>
+        <li>Hébergements soigneusement sélectionnés, des écolodges aux hôtels de charme</li>
+        <li>Sécurité et confort garantis sur tous nos circuits</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ── DESTINATIONS ── -->
+<section id="destinations">
+  <div class="dest-header">
+    <div>
+      <span class="section-eyebrow">Nos pépites</span>
+      <h2 class="section-title" style="color:var(--white)">Les joyaux de la région Sud</h2>
+    </div>
+    <p style="color:rgba(255,255,255,0.6); font-size:0.92rem; max-width:320px; line-height:1.7;">
+      De l'Océan Atlantique aux profondeurs de la forêt du Bassin du Congo, chaque lieu raconte une histoire unique.
+    </p>
+  </div>
+  <div class="dest-grid">
+
+    <div class="dest-card">
+      <img src="https://images.unsplash.com/photo-1568515387631-8b650bbcdb90?w=800&q=80" alt="Chutes de la Lobé" class="dest-img" />
+      <div class="dest-overlay"></div>
+      <div class="dest-info">
+        <span class="dest-tag">Incontournable</span>
+        <div class="dest-name">Chutes de la Lobé</div>
+        <p class="dest-desc">Les seules chutes d'Afrique se jetant directement dans l'Atlantique. Un spectacle naturel d'une rare beauté, accessible en pirogue.</p>
+      </div>
+    </div>
+
+    <div class="dest-card">
+      <img src="https://images.unsplash.com/photo-1566228015668-4c45dbc4e2f5?w=800&q=80" alt="Plages de Kribi" class="dest-img" />
+      <div class="dest-overlay"></div>
+      <div class="dest-info">
+        <span class="dest-tag">Plage</span>
+        <div class="dest-name">Plages de Kribi</div>
+        <p class="dest-desc">Des kilomètres de sable doré, des eaux turquoises calmes et une atmosphère apaisante sous les cocotiers.</p>
+      </div>
+    </div>
+
+    <div class="dest-card">
+      <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&q=80" alt="Forêt tropicale du Sud" class="dest-img" />
+      <div class="dest-overlay"></div>
+      <div class="dest-info">
+        <span class="dest-tag">Nature</span>
+        <div class="dest-name">Forêt équatoriale</div>
+        <p class="dest-desc">Plongez dans la canopée dense et habitée par les Pygmées Bagyeli, gardiens ancestraux de ces forêts millénaires.</p>
+      </div>
+    </div>
+
+    <div class="dest-card">
+      <img src="https://images.unsplash.com/photo-1534430480872-3498386e7856?w=800&q=80" alt="Campo Ma'an" class="dest-img" />
+      <div class="dest-overlay"></div>
+      <div class="dest-info">
+        <span class="dest-tag">Parc national</span>
+        <div class="dest-name">Parc Campo-Ma'an</div>
+        <p class="dest-desc">Sanctuaire de biodiversité aux confins de la frontière guinéenne, abritant éléphants, gorilles et une flore endémique exceptionnelle.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── ACTIVITÉS ── -->
+<section id="activities">
+  <div style="text-align:center; max-width:1200px; margin:0 auto;">
+    <span class="section-eyebrow">Ce que vous vivrez</span>
+    <h2 class="section-title" style="margin:0 auto;">Activités & Expériences</h2>
+    <p class="section-lead">Chaque séjour avec Kribi Adventure est une aventure sur mesure. Voici ce qui vous attend.</p>
+  </div>
+  <div class="act-grid">
+
+    <div class="act-card">
+      <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=700&q=80" alt="Pêche traditionnelle" class="act-img" />
+      <div class="act-body">
+        <span class="act-icon">🎣</span>
+        <div class="act-name">Pêche traditionnelle</div>
+        <p class="act-desc">Accompagnez les pêcheurs Batanga à l'aube sur l'Océan Atlantique. Technique ancestrale à la pirogue, filets et retour au marché avec votre prise.</p>
+        <div class="act-meta">⏱ Demi-journée · Tous niveaux</div>
+      </div>
+    </div>
+
+    <div class="act-card">
+      <img src="https://images.unsplash.com/photo-1501555088652-021faa106b9b?w=700&q=80" alt="Randonnée forêt" class="act-img" />
+      <div class="act-body">
+        <span class="act-icon">🥾</span>
+        <div class="act-name">Randonnée en forêt</div>
+        <p class="act-desc">Trek guidé à travers la forêt équatoriale avec un guide Bagyeli. Découvrez plantes médicinales, faune et les techniques de survie ancestrales.</p>
+        <div class="act-meta">⏱ Journée complète · Niveau moyen</div>
+      </div>
+    </div>
+
+    <div class="act-card">
+      <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=700&q=80" alt="Chutes en pirogue" class="act-img" />
+      <div class="act-body">
+        <span class="act-icon">🛶</span>
+        <div class="act-name">Excursion en pirogue</div>
+        <p class="act-desc">Remontez la rivière Lobé jusqu'à ses chutes majestueuses en pirogue traditionnelle. Baignade et observation de la faune au programme.</p>
+        <div class="act-meta">⏱ 3 heures · Facile</div>
+      </div>
+    </div>
+
+    <div class="act-card">
+      <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=700&q=80" alt="Safari faune" class="act-img" />
+      <div class="act-body">
+        <span class="act-icon">🦁</span>
+        <div class="act-name">Safari à Campo-Ma'an</div>
+        <p class="act-desc">Observation des éléphants de forêt, mandrills, chimpanzés et des 300 espèces d'oiseaux dans ce parc exceptionnel aux confins du pays.</p>
+        <div class="act-meta">⏱ 2 jours · Tous niveaux</div>
+      </div>
+    </div>
+
+    <div class="act-card">
+      <img src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=700&q=80" alt="Rencontre culturelle" class="act-img" />
+      <div class="act-body">
+        <span class="act-icon">🥁</span>
+        <div class="act-name">Immersion culturelle Bulu</div>
+        <p class="act-desc">Soirée dans un village Bulu : danses rituelles, cuisine traditionnelle ndolé et vin de palme, initiation au balafon et échanges avec les anciens.</p>
+        <div class="act-meta">⏱ Soirée · Famille bienvenue</div>
+      </div>
+    </div>
+
+    <div class="act-card">
+      <img src="https://images.unsplash.com/photo-1476611338391-6f395a0dd82e?w=700&q=80" alt="Plongée snorkeling" class="act-img" />
+      <div class="act-body">
+        <span class="act-icon">🤿</span>
+        <div class="act-name">Snorkeling & plages secrètes</div>
+        <p class="act-desc">Cap vers les anses isolées accessibles uniquement par la mer. Coraux, poissons tropicaux et l'ivresse d'une plage vierge pour soi seul.</p>
+        <div class="act-meta">⏱ Demi-journée · Savoir nager</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── GALERIE ── -->
+<section id="gallery">
+  <div style="text-align:center; max-width:1200px; margin:0 auto;">
+    <span class="section-eyebrow">En images</span>
+    <h2 class="section-title">Le Grand Sud en quelques clichés</h2>
+  </div>
+  <div class="gallery-grid">
+    <div class="gallery-item g1">
+      <img src="https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=900&q=80" alt="Lobé chutes" />
+      <div class="gallery-caption"><span>Chutes de la Lobé</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=600&q=80" alt="Plage Kribi" />
+      <div class="gallery-caption"><span>Plage de Grand Batanga</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1549366021-9f761d040a94?w=600&q=80" alt="Village" />
+      <div class="gallery-caption"><span>Village Bagyeli</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1474511320723-9a56873867b5?w=600&q=80" alt="Faune" />
+      <div class="gallery-caption"><span>Faune de Campo-Ma'an</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=600&q=80" alt="Coucher de soleil" />
+      <div class="gallery-caption"><span>Coucher de soleil atlantique</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FORFAITS ── -->
+<section id="packages">
+  <div style="text-align:center; max-width:1200px; margin:0 auto;">
+    <span class="section-eyebrow">Nos forfaits</span>
+    <h2 class="section-title">Choisissez votre aventure</h2>
+    <p class="section-lead">Des séjours soigneusement conçus pour chaque type de voyageur. Tout est personnalisable selon vos envies.</p>
+  </div>
+  <div class="pkg-grid">
+
+    <div class="pkg-card">
+      <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80" alt="Week-end Kribi" class="pkg-img" />
+      <div class="pkg-body">
+        <span class="pkg-badge">Escapade</span>
+        <div class="pkg-name">Week-end à Kribi</div>
+        <p class="pkg-desc">2 jours pour découvrir les essentiels : les chutes de la Lobé, les plages et un dîner de poissons frais face à l'Atlantique.</p>
+        <ul class="pkg-features">
+          <li>2 nuits en guesthouse confort</li>
+          <li>Excursion chutes en pirogue</li>
+          <li>Repas traditionnels inclus</li>
+          <li>Guide francophone dédié</li>
+        </ul>
+        <div class="pkg-price">
+          <div class="price-label">À partir de</div>
+          <div class="price-val">89 000 <small style="font-size:1rem; font-weight:400">FCFA</small></div>
+          <div class="price-per">par personne · 2 jours / 2 nuits</div>
+        </div>
+        <a href="#contact" class="pkg-btn">Réserver ce séjour</a>
+      </div>
+    </div>
+
+    <div class="pkg-card featured">
+      <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&q=80" alt="Grand Sud Explorer" class="pkg-img" />
+      <div class="pkg-body">
+        <span class="pkg-badge">⭐ Le plus populaire</span>
+        <div class="pkg-name">Grand Sud Explorer</div>
+        <p class="pkg-desc">5 jours au cœur du Sud camerounais : plages, forêt, immersion culturelle Bulu et safari à Campo-Ma'an.</p>
+        <ul class="pkg-features">
+          <li>4 nuits en écolodge et hôtel</li>
+          <li>Toutes activités incluses</li>
+          <li>Repas complets et transferts</li>
+          <li>Guide bilingue Fr/En dédié</li>
+          <li>Safari Campo-Ma'an (1 journée)</li>
+        </ul>
+        <div class="pkg-price">
+          <div class="price-label">À partir de</div>
+          <div class="price-val">285 000 <small style="font-size:1rem; font-weight:400">FCFA</small></div>
+          <div class="price-per">par personne · 5 jours / 4 nuits</div>
+        </div>
+        <a href="#contact" class="pkg-btn">Réserver ce séjour</a>
+      </div>
+    </div>
+
+    <div class="pkg-card">
+      <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=600&q=80" alt="Immersion totale" class="pkg-img" />
+      <div class="pkg-body">
+        <span class="pkg-badge">Sur mesure</span>
+        <div class="pkg-name">Immersion Totale</div>
+        <p class="pkg-desc">10 jours d'aventure profonde : campement en forêt, communautés Bagyeli, pêche hauturière et plages isolées. Pour les vrais aventuriers.</p>
+        <ul class="pkg-features">
+          <li>9 nuits · lodges & camping forêt</li>
+          <li>Campement chez les Bagyeli</li>
+          <li>Pêche hauturière en mer</li>
+          <li>Circuit 100% personnalisé</li>
+        </ul>
+        <div class="pkg-price">
+          <div class="price-label">À partir de</div>
+          <div class="price-val">520 000 <small style="font-size:1rem; font-weight:400">FCFA</small></div>
+          <div class="price-per">par personne · 10 jours / 9 nuits</div>
+        </div>
+        <a href="#contact" class="pkg-btn">Demander un devis</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── TÉMOIGNAGES ── -->
+<section id="testimonials">
+  <div style="max-width:1200px; margin:0 auto;">
+    <span class="section-eyebrow">Ils nous font confiance</span>
+    <h2 class="section-title">Ce que disent nos voyageurs</h2>
+  </div>
+  <div class="testi-grid">
+
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-quote">« Une expérience inoubliable. Le guide était passionnant et nous a emmené à des endroits que nous n'aurions jamais trouvés seuls. Les chutes de la Lobé au coucher du soleil, c'est quelque chose qui reste gravé à jamais. »</p>
+      <div class="testi-author">
+        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b77c?w=100&q=80" alt="Marie L." class="testi-avatar" />
+        <div>
+          <div class="testi-name">Marie Lefebvre</div>
+          <div class="testi-origin">Lyon, France · Mai 2024</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-quote">« Je voyage en Afrique depuis 20 ans et Kribi reste ma destination préférée. L'équipe de Kribi Adventure connaît chaque sentier, chaque pêcheur, chaque secret de cette région. Professionnalisme et authenticité réunis. »</p>
+      <div class="testi-author">
+        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80" alt="Thomas B." class="testi-avatar" />
+        <div>
+          <div class="testi-name">Thomas Bergmann</div>
+          <div class="testi-origin">Hambourg, Allemagne · Janvier 2025</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-quote">« Le forfait Grand Sud Explorer vaut chaque franc. La nuit en écolodge en lisière de forêt, les chants d'oiseaux au réveil, le marché de Kribi... ma famille en parle encore 6 mois après. Merci infiniment ! »</p>
+      <div class="testi-author">
+        <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=100&q=80" alt="Aminata D." class="testi-avatar" />
+        <div>
+          <div class="testi-name">Aminata Diallo</div>
+          <div class="testi-origin">Dakar, Sénégal · Août 2024</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── INFOS PRATIQUES ── -->
+<section id="tips">
+  <div style="text-align:center; max-width:800px; margin:0 auto;">
+    <span class="section-eyebrow">Préparez votre voyage</span>
+    <h2 class="section-title">Infos pratiques pour votre séjour</h2>
+  </div>
+  <div class="tips-grid">
+    <div class="tips-block">
+      <h3>Conseils essentiels</h3>
+      <ul class="tips-list">
+        <li>
+          <div class="tip-icon">🛂</div>
+          <div class="tip-text">
+            <strong>Visa & entrée</strong>
+            <span>Visa requis pour la plupart des nationalités. Disponible à l'ambassade du Cameroun ou à l'arrivée à l'aéroport de Douala.</span>
+          </div>
+        </li>
+        <li>
+          <div class="tip-icon">💉</div>
+          <div class="tip-text">
+            <strong>Santé</strong>
+            <span>Vaccin fièvre jaune obligatoire. Traitement antipaludéen recommandé. Eau en bouteille conseillée.</span>
+          </div>
+        </li>
+        <li>
+          <div class="tip-icon">💵</div>
+          <div class="tip-text">
+            <strong>Monnaie</strong>
+            <span>Franc CFA (XAF). Les DAB sont disponibles à Kribi. Emportez du cash pour les villages et marchés.</span>
+          </div>
+        </li>
+        <li>
+          <div class="tip-icon">📱</div>
+          <div class="tip-text">
+            <strong>Connectivité</strong>
+            <span>Orange et MTN Cameroun offrent une bonne couverture 4G à Kribi. Signal faible en forêt profonde.</span>
+          </div>
+        </li>
+        <li>
+          <div class="tip-icon">✈️</div>
+          <div class="tip-text">
+            <strong>Comment arriver</strong>
+            <span>Vol international jusqu'à Douala, puis 3h de route vers Kribi. Nous organisons vos transferts sur demande.</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="tips-block">
+      <h3>Meilleure période pour visiter</h3>
+      <table class="seasons-table">
+        <thead>
+          <tr><th>Période</th><th>Météo</th><th>Recommandé</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Déc – Fév</td><td>Saison sèche chaude</td><td><span class="pill good">Idéal</span></td></tr>
+          <tr><td>Mars – Mai</td><td>Petite saison des pluies</td><td><span class="pill avg">Acceptable</span></td></tr>
+          <tr><td>Juin – Août</td><td>Grande saison des pluies</td><td><span class="pill off">Déconseillé</span></td></tr>
+          <tr><td>Sept – Nov</td><td>Fin des pluies</td><td><span class="pill avg">Acceptable</span></td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:0.82rem; color:var(--text-light); margin-top:1.2rem; line-height:1.65;">
+        💡 La saison sèche (décembre–février) est la période reine : rivières navigables, pistes praticables, faune plus visible aux points d'eau. Les chutes de la Lobé sont cependant plus impressionnantes en saison des pluies.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div style="max-width:1100px; margin:0 auto;">
+    <span class="section-eyebrow">Prenons contact</span>
+    <h2 class="section-title" style="color:var(--white)">Prêt à vivre l'aventure ?</h2>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-info">
+      <p style="color:rgba(255,255,255,0.65); line-height:1.75; font-size:0.95rem; margin-bottom:1rem;">
+        Partagez vos envies et nous créerons ensemble le séjour qui vous ressemble. Réponse garantie sous 24 heures.
+      </p>
+      <div class="contact-item">
+        <div class="c-icon">📍</div>
+        <div>
+          <div class="c-label">Adresse</div>
+          <div class="c-val">Avenue de l'Indépendance, Kribi<br>Région du Sud, Cameroun</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="c-icon">📞</div>
+        <div>
+          <div class="c-label">Téléphone & WhatsApp</div>
+          <div class="c-val">+237 6 77 00 00 00</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="c-icon">✉️</div>
+        <div>
+          <div class="c-label">Email</div>
+          <div class="c-val">contact@kribi-adventure.cm</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="c-icon">🕐</div>
+        <div>
+          <div class="c-label">Horaires</div>
+          <div class="c-val">Lun – Sam : 8h00 – 18h00<br>Dimanche : sur RDV</div>
+        </div>
+      </div>
+    </div>
+
+    <form class="contact-form" onsubmit="handleSubmit(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="prenom">Prénom</label>
+          <input type="text" id="prenom" placeholder="Votre prénom" required />
+        </div>
+        <div class="form-group">
+          <label for="nom">Nom</label>
+          <input type="text" id="nom" placeholder="Votre nom" required />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="email">Adresse email</label>
+        <input type="email" id="email" placeholder="vous@exemple.com" required />
+      </div>
+      <div class="form-group">
+        <label for="forfait">Forfait qui vous intéresse</label>
+        <select id="forfait">
+          <option value="">Choisissez un forfait...</option>
+          <option>Week-end à Kribi (2j/2n)</option>
+          <option>Grand Sud Explorer (5j/4n)</option>
+          <option>Immersion Totale (10j/9n)</option>
+          <option>Forfait sur mesure</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="message">Votre message</label>
+        <textarea id="message" placeholder="Dates souhaitées, nombre de personnes, envies particulières..."></textarea>
+      </div>
+      <button type="submit" class="submit-btn" id="submitBtn">Envoyer ma demande →</button>
+    </form>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div>
+    <div class="footer-logo">Kribi<span>Adventure</span></div>
+    <p style="margin-top:0.5rem;">Tourisme authentique dans la Région du Sud, Cameroun.</p>
+  </div>
+  <p style="font-size:0.8rem;">© 2025 Kribi Adventure. Tous droits réservés.</p>
+  <div class="footer-social">
+    <a href="#" class="soc-btn" aria-label="Facebook">f</a>
+    <a href="#" class="soc-btn" aria-label="Instagram">ig</a>
+    <a href="#" class="soc-btn" aria-label="WhatsApp">wa</a>
+    <a href="#" class="soc-btn" aria-label="YouTube">yt</a>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll effect
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Mobile menu
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobileClose = document.getElementById('mobileClose');
+
+  hamburger.addEventListener('click', () => mobileMenu.classList.add('open'));
+  mobileClose.addEventListener('click', () => mobileMenu.classList.remove('open'));
+  document.querySelectorAll('.mob-link').forEach(link => {
+    link.addEventListener('click', () => mobileMenu.classList.remove('open'));
+  });
+
+  // Form submit
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    btn.textContent = '✓ Message envoyé !';
+    btn.style.background = '#2D6A4F';
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.textContent = 'Envoyer ma demande →';
+      btn.style.background = '';
+      btn.disabled = false;
+      e.target.reset();
+    }, 3500);
+  }
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.dest-card, .act-card, .pkg-card, .testi-card, .tips-list li, .stat-item');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  revealEls.forEach((el, i) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(28px)';
+    el.style.transition = `opacity 0.55s ease ${i * 0.07}s, transform 0.55s ease ${i * 0.07}s`;
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
